@@ -25,49 +25,25 @@
     
     <div id="auth-login">
       <div class="auth-err" id="login-err"></div>
-      <div class="form-group">
-        <label class="form-label">Логин</label>
-        <input type="text" class="form-input" id="l-user" placeholder="Введите ваш логин" autocomplete="username">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Пароль</label>
-        <input type="password" class="form-input" id="l-pass" placeholder="••••••••">
-      </div>
-      <button class="btn btn-primary btn-full" onclick="doLogin()">Войти в систему →</button>
+      <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Логин"></div>
+      <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="l-pass" placeholder="Пароль"></div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
     </div>
 
     <div id="auth-register" style="display:none">
       <div class="auth-err" id="register-err"></div>
       <div class="role-select" id="reg-role-select">
-        <div class="role-btn active" onclick="selectAuthRole('admin',this)">
-          <div class="ri">👑</div><div class="rn">Админ</div>
-        </div>
-        <div class="role-btn" onclick="selectAuthRole('teacher',this)">
-          <div class="ri">👩‍🏫</div><div class="rn">Учитель</div>
-        </div>
-        <div class="role-btn" onclick="selectAuthRole('student',this)">
-          <div class="ri">🎓</div><div class="rn">Ученик</div>
-        </div>
+        <div class="role-btn active" onclick="selectAuthRole('admin',this)"><div class="ri">👑</div><div class="rn">Админ</div></div>
+        <div class="role-btn" onclick="selectAuthRole('teacher',this)"><div class="ri">👩‍🏫</div><div class="rn">Учитель</div></div>
+        <div class="role-btn" onclick="selectAuthRole('student',this)"><div class="ri">🎓</div><div class="rn">Ученик</div></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Имя</label>
-          <input type="text" class="form-input" id="r-fname" placeholder="Имя">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Фамилия</label>
-          <input type="text" class="form-input" id="r-lname" placeholder="Фамилия">
-        </div>
+        <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="r-fname"></div>
+        <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="r-lname"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Придумайте логин</label>
-        <input type="text" class="form-input" id="r-user" placeholder="Напр: aity.dev">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Пароль</label>
-        <input type="password" class="form-input" id="r-pass" placeholder="Минимум 6 символов">
-      </div>
-      <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
+      <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="r-user"></div>
+      <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="r-pass"></div>
+      <button class="btn btn-primary btn-full" onclick="doRegister()">Создать →</button>
     </div>
   </div>
 </div>
@@ -81,7 +57,7 @@
     </div>
     <nav id="main-nav"></nav>
     <div style="padding:16px; margin-top:auto">
-      <button class="btn-logout" onclick="doLogout()">Выйти из системы</button>
+      <button class="btn-logout" style="width:100%; cursor:pointer;" onclick="doLogout()">Выйти</button>
     </div>
   </aside>
 
@@ -91,20 +67,19 @@
       <div class="topbar-title" id="topbar-title">Панель управления</div>
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" class="search-box" id="search-box" placeholder="Поиск по системе..." oninput="handleSearch(this.value)">
+        <input type="text" class="search-box" id="search-box" placeholder="Поиск..." oninput="handleSearch(this.value)">
       </div>
     </div>
-    <div class="content" id="main-content">
-        </div>
+    <div class="content" id="main-content"></div>
   </main>
 </div>
 
 <div class="overlay" id="ov-add-student">
   <div class="modal">
     <div class="modal-head">Добавить ученика <span class="modal-close" onclick="closeModal('add-student')">×</span></div>
-    <div class="form-group"><label class="form-label">ФИО ученика</label><input type="text" class="form-input" id="as-name"></div>
-    <div class="form-group"><label class="form-label">Группа (курс)</label><input type="text" class="form-input" id="as-group"></div>
-    <button class="btn btn-primary btn-full" onclick="saveStudent()">Сохранить в базу</button>
+    <div class="form-group"><label class="form-label">ФИО</label><input class="form-input" id="as-name"></div>
+    <div class="form-group"><label class="form-label">Группа</label><input class="form-input" id="as-group"></div>
+    <button class="btn btn-primary btn-full" onclick="saveStudent()">Сохранить</button>
   </div>
 </div>
 
