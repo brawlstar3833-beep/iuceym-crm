@@ -1,48 +1,102 @@
-/* --- ПЕРЕМЕННЫЕ И БАЗА --- */
-:root {
-  --bg: #f0f5ff;
-  --surface: #ffffff;
-  --accent: #2563eb;
-  --accent-soft: #dbeafe;
-  --text: #1e293b;
-  --border: #d5e3ff;
+:root{
+  --bg:#f0f5ff;
+  --surface:#ffffff;
+  --surface2:#f4f8ff;
+  --surface3:#e8f0fe;
+  --border:#d5e3ff;
+  --accent:#2563eb;
+  --accent2:#1d4ed8;
+  --accent-light:#eff6ff;
+  --accent-soft:#dbeafe;
+  --green:#059669;
+  --green-soft:#d1fae5;
+  --red:#dc2626;
+  --red-soft:#fee2e2;
+  --yellow:#d97706;
+  --yellow-soft:#fef3c7;
+  --text:#1e293b;
+  --text2:#475569;
+  --muted:#94a3b8;
+  --gold:#b45309;
+  --gold-soft:#fef3c7;
 }
 
-/* ... (Здесь должны быть все стили из тега <style> твоего файла) ... */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Golos Text', sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden;}
 
-/* --- СОСТОЯНИЯ ЗАГРУЗКИ (Loader для MySQL) --- */
-.db-loader-container {
+/* AUTH SCREEN */
+.auth-screen{position:fixed;inset:0;background:radial-gradient(circle at top right, #dbeafe, #f0f5ff);display:flex;align-items:center;justify-content:center;z-index:2000;padding:20px;}
+.auth-box{background:var(--surface);width:100%;max-width:440px;border-radius:24px;box-shadow:0 25px 50px -12px rgba(37,99,235,0.15);padding:40px;border:1px solid var(--surface2);}
+.auth-logo{text-align:center;margin-bottom:32px;}
+.auth-badge{display:inline-block;padding:4px 12px;background:var(--accent-soft);color:var(--accent);border-radius:100px;font-size:10px;font-weight:900;font-family:'Unbounded';margin-bottom:12px;letter-spacing:1px;}
+.auth-title{font-family:'Unbounded';font-weight:900;font-size:24px;color:var(--text);line-height:1.2;}
+.auth-sub{font-size:14px;color:var(--text2);margin-top:8px;}
+.auth-tabs{display:flex;background:var(--bg);padding:6px;border-radius:14px;margin-bottom:24px;}
+.auth-tab{flex:1;text-align:center;padding:10px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;color:var(--text2);}
+.auth-tab.active{background:var(--surface);color:var(--accent);box-shadow:0 4px 12px rgba(0,0,0,0.05);}
+.auth-err{color:var(--red);background:var(--red-soft);padding:10px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none;text-align:center;}
+
+/* APP STRUCTURE */
+.app{display:flex;min-height:100vh;}
+.sidebar{width:280px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;z-index:1000;transition:.3s ease;}
+.main{flex:1;margin-left:280px;min-width:0;}
+.topbar{height:70px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0;padding-left:30px;padding-right:30px;position:sticky;top:0;z-index:900;gap:20px;}
+.hamburger{display:none;font-size:24px;cursor:pointer;}
+.topbar-title{font-family:'Unbounded';font-weight:700;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
+.content{padding:30px;max-width:1400px;margin:0 auto;}
+
+/* COMPONENTS */
+.logo{padding:30px;border-bottom:1px solid var(--surface2);}
+.logo-badge{font-family:'Unbounded';font-weight:900;font-size:10px;color:var(--accent);background:var(--accent-soft);display:inline-block;padding:2px 8px;border-radius:4px;margin-bottom:8px;}
+.logo-title{font-family:'Unbounded';font-weight:900;font-size:20px;color:var(--text);}
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px 20px;margin:4px 16px;border-radius:12px;text-decoration:none;color:var(--text2);font-weight:500;transition:.2s;cursor:pointer;}
+.nav-item:hover{background:var(--accent-light);color:var(--accent);}
+.nav-item.active{background:var(--accent);color:#fff;box-shadow:0 8px 16px -4px rgba(37,99,235,0.3);}
+.nav-icon{font-size:20px;}
+
+.search-wrap{flex:1;max-width:400px;position:relative;margin-left:auto;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+.search-box{width:100%;background:var(--bg);border:1px solid var(--border);padding:10px 10px 10px 40px;border-radius:12px;font-family:inherit;font-size:14px;transition:.2s;}
+.search-box:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 4px var(--accent-soft);}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;transition:.2s;border:none;gap:8px;font-family:inherit;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);}
+.btn-full{width:100%;}
+.form-group{margin-bottom:20px;}
+.form-label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text2);}
+.form-input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);font-family:inherit;font-size:14px;transition:.2s;background:var(--bg);}
+.form-input:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 4px var(--accent-soft);}
+
+/* LOADER SECTION (MySQL Sync) */
+.mysql-loader {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    padding: 40px;
     background: var(--surface);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    margin: 20px 0;
+    border-radius: 20px;
+    border: 2px dashed var(--accent-soft);
 }
-
-.mysql-spinner {
-    width: 48px;
-    height: 48px;
-    border: 5px solid var(--accent-soft);
-    border-bottom-color: var(--accent);
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--accent-soft);
+    border-top: 4px solid var(--accent);
     border-radius: 50%;
-    display: inline-block;
-    animation: rotation 1s linear infinite;
+    animation: spin 1s linear infinite;
 }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-.loader-msg {
-    margin-top: 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
-    font-family: 'Unbounded', sans-serif;
-    letter-spacing: 0.5px;
-}
+.hidden{display:none !important;}
 
-@keyframes rotation {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* MOBILE */
+@media (max-width:992px){
+  .sidebar{left:-280px;}
+  .sidebar.show{left:0;}
+  .main{margin-left:0;}
+  .hamburger{display:block;}
+  .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;display:none;backdrop-filter:blur(4px);}
+  .sidebar-overlay.show{display:block;}
 }
