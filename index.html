@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>CRM — Кесиптик Лицей №89</title>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<div class="auth-screen" id="authScreen">
+    <div class="auth-box">
+        <div class="auth-logo">
+            <div class="auth-badge">CRM SYSTEM</div>
+            <div class="auth-title">Кесиптик Лицей №89</div>
+            <div class="auth-sub">Цифровая система управления лицеем</div>
+        </div>
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="authTab('login',this)">Войти</div>
+            <div class="auth-tab" onclick="authTab('register',this)">Регистрация</div>
+        </div>
+        
+        <div id="auth-login">
+            <div class="auth-err" id="login-err"></div>
+            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Введите логин" autocomplete="username"></div>
+            <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="l-pass" placeholder="Введите пароль"></div>
+            <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
+        </div>
+
+        <div id="auth-register" style="display:none">
+            <div class="auth-err" id="register-err"></div>
+            <div class="role-select" id="reg-role-select">
+                <div class="role-btn" onclick="selectAuthRole('admin',this)"><div class="ri">👑</div><div class="rn">Админ</div></div>
+                <div class="role-btn" onclick="selectAuthRole('teacher',this)"><div class="ri">👩‍🏫</div><div class="rn">Учитель</div></div>
+                <div class="role-btn" onclick="selectAuthRole('student',this)"><div class="ri">🎓</div><div class="rn">Ученик</div></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="r-fname" placeholder="Имя"></div>
+                <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="r-lname" placeholder="Фамилия"></div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
+        </div>
+    </div>
+</div>
+
+<div class="app hidden" id="appContainer">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <div class="logo-badge">CRM v2.1</div>
+            <div class="logo-title">Лицей №89</div>
+        </div>
+        <nav id="main-nav">
+            </nav>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="hamburger" onclick="toggleSidebar()">☰</div>
+            <div class="topbar-title" id="topbar-title">Панель управления</div>
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-box" id="search-box" placeholder="Поиск...">
+            </div>
+        </div>
+
+        <div class="content" id="main-content">
+            </div>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
