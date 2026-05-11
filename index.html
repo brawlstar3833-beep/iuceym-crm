@@ -25,7 +25,7 @@
         
         <div id="auth-login">
             <div class="auth-err" id="login-err"></div>
-            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Введите логин" autocomplete="username"></div>
+            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Введите логин"></div>
             <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="l-pass" placeholder="Введите пароль"></div>
             <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
         </div>
@@ -41,6 +41,8 @@
                 <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="r-fname" placeholder="Имя"></div>
                 <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="r-lname" placeholder="Фамилия"></div>
             </div>
+            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="r-user" placeholder="Придумайте логин"></div>
+            <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="r-pass" placeholder="Минимум 6 символов"></div>
             <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
         </div>
     </div>
@@ -48,14 +50,15 @@
 
 <div class="app hidden" id="appContainer">
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-    
     <aside class="sidebar" id="sidebar">
         <div class="logo">
             <div class="logo-badge">CRM v2.1</div>
             <div class="logo-title">Лицей №89</div>
         </div>
-        <nav id="main-nav">
-            </nav>
+        <nav id="main-nav"></nav>
+        <div style="padding:16px; margin-top:auto">
+            <button class="btn-logout" onclick="doLogout()">Выйти из системы</button>
+        </div>
     </aside>
 
     <main class="main">
@@ -64,12 +67,10 @@
             <div class="topbar-title" id="topbar-title">Панель управления</div>
             <div class="search-wrap">
                 <span class="search-icon">🔍</span>
-                <input type="text" class="search-box" id="search-box" placeholder="Поиск...">
+                <input type="text" class="search-box" id="search-box" placeholder="Поиск по системе...">
             </div>
         </div>
-
-        <div class="content" id="main-content">
-            </div>
+        <div class="content" id="main-content"></div>
     </main>
 </div>
 
