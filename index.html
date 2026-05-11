@@ -12,66 +12,100 @@
 <div class="toast-wrap" id="toasts"></div>
 
 <div class="auth-screen" id="authScreen">
-    <div class="auth-box">
-        <div class="auth-logo">
-            <div class="auth-badge">CRM SYSTEM</div>
-            <div class="auth-title">Кесиптик Лицей №89</div>
-            <div class="auth-sub">Цифровая система управления лицеем</div>
-        </div>
-        <div class="auth-tabs">
-            <div class="auth-tab active" onclick="authTab('login',this)">Войти</div>
-            <div class="auth-tab" onclick="authTab('register',this)">Регистрация</div>
-        </div>
-        
-        <div id="auth-login">
-            <div class="auth-err" id="login-err"></div>
-            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Введите логин"></div>
-            <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="l-pass" placeholder="Введите пароль"></div>
-            <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
-        </div>
-
-        <div id="auth-register" style="display:none">
-            <div class="auth-err" id="register-err"></div>
-            <div class="role-select" id="reg-role-select">
-                <div class="role-btn" onclick="selectAuthRole('admin',this)"><div class="ri">👑</div><div class="rn">Админ</div></div>
-                <div class="role-btn" onclick="selectAuthRole('teacher',this)"><div class="ri">👩‍🏫</div><div class="rn">Учитель</div></div>
-                <div class="role-btn" onclick="selectAuthRole('student',this)"><div class="ri">🎓</div><div class="rn">Ученик</div></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="r-fname" placeholder="Имя"></div>
-                <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="r-lname" placeholder="Фамилия"></div>
-            </div>
-            <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="r-user" placeholder="Придумайте логин"></div>
-            <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="r-pass" placeholder="Минимум 6 символов"></div>
-            <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
-        </div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-badge">CRM SYSTEM</div>
+      <div class="auth-title">Кесиптик Лицей №89</div>
+      <div class="auth-sub">Цифровая система управления лицеем</div>
     </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="authTab('login',this)">Войти</div>
+      <div class="auth-tab" onclick="authTab('register',this)">Регистрация</div>
+    </div>
+    
+    <div id="auth-login">
+      <div class="auth-err" id="login-err"></div>
+      <div class="form-group">
+        <label class="form-label">Логин</label>
+        <input type="text" class="form-input" id="l-user" placeholder="Введите ваш логин" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input type="password" class="form-input" id="l-pass" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Войти в систему →</button>
+    </div>
+
+    <div id="auth-register" style="display:none">
+      <div class="auth-err" id="register-err"></div>
+      <div class="role-select" id="reg-role-select">
+        <div class="role-btn active" onclick="selectAuthRole('admin',this)">
+          <div class="ri">👑</div><div class="rn">Админ</div>
+        </div>
+        <div class="role-btn" onclick="selectAuthRole('teacher',this)">
+          <div class="ri">👩‍🏫</div><div class="rn">Учитель</div>
+        </div>
+        <div class="role-btn" onclick="selectAuthRole('student',this)">
+          <div class="ri">🎓</div><div class="rn">Ученик</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Имя</label>
+          <input type="text" class="form-input" id="r-fname" placeholder="Имя">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Фамилия</label>
+          <input type="text" class="form-input" id="r-lname" placeholder="Фамилия">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Придумайте логин</label>
+        <input type="text" class="form-input" id="r-user" placeholder="Напр: aity.dev">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input type="password" class="form-input" id="r-pass" placeholder="Минимум 6 символов">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
+    </div>
+  </div>
 </div>
 
 <div class="app hidden" id="appContainer">
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-    <aside class="sidebar" id="sidebar">
-        <div class="logo">
-            <div class="logo-badge">CRM v2.1</div>
-            <div class="logo-title">Лицей №89</div>
-        </div>
-        <nav id="main-nav"></nav>
-        <div style="padding:16px; margin-top:auto">
-            <button class="btn-logout" onclick="doLogout()">Выйти из системы</button>
-        </div>
-    </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-badge">CRM v2.1</div>
+      <div class="logo-title">Лицей №89</div>
+    </div>
+    <nav id="main-nav"></nav>
+    <div style="padding:16px; margin-top:auto">
+      <button class="btn-logout" onclick="doLogout()">Выйти из системы</button>
+    </div>
+  </aside>
 
-    <main class="main">
-        <div class="topbar">
-            <div class="hamburger" onclick="toggleSidebar()">☰</div>
-            <div class="topbar-title" id="topbar-title">Панель управления</div>
-            <div class="search-wrap">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-box" id="search-box" placeholder="Поиск по системе...">
-            </div>
+  <main class="main">
+    <div class="topbar">
+      <div class="hamburger" onclick="toggleSidebar()">☰</div>
+      <div class="topbar-title" id="topbar-title">Панель управления</div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-box" id="search-box" placeholder="Поиск по системе..." oninput="handleSearch(this.value)">
+      </div>
+    </div>
+    <div class="content" id="main-content">
         </div>
-        <div class="content" id="main-content"></div>
-    </main>
+  </main>
+</div>
+
+<div class="overlay" id="ov-add-student">
+  <div class="modal">
+    <div class="modal-head">Добавить ученика <span class="modal-close" onclick="closeModal('add-student')">×</span></div>
+    <div class="form-group"><label class="form-label">ФИО ученика</label><input type="text" class="form-input" id="as-name"></div>
+    <div class="form-group"><label class="form-label">Группа (курс)</label><input type="text" class="form-input" id="as-group"></div>
+    <button class="btn btn-primary btn-full" onclick="saveStudent()">Сохранить в базу</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
