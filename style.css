@@ -1,0 +1,48 @@
+/* --- ПЕРЕМЕННЫЕ И БАЗА --- */
+:root {
+  --bg: #f0f5ff;
+  --surface: #ffffff;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
+  --text: #1e293b;
+  --border: #d5e3ff;
+}
+
+/* ... (Здесь должны быть все стили из тега <style> твоего файла) ... */
+
+/* --- СОСТОЯНИЯ ЗАГРУЗКИ (Loader для MySQL) --- */
+.db-loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin: 20px 0;
+}
+
+.mysql-spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid var(--accent-soft);
+    border-bottom-color: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+}
+
+.loader-msg {
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: 'Unbounded', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+@keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
