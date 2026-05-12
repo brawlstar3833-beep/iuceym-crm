@@ -9,8 +9,7 @@
 </head>
 <body>
 
-<div class="toast-wrap" id="toasts"></div>
-
+<!-- ═══ AUTH SCREEN ═══════════════════════════════════════════ -->
 <div class="auth-screen" id="authScreen">
   <div class="auth-box">
     <div class="auth-logo">
@@ -24,54 +23,264 @@
     </div>
     <div id="auth-login">
       <div class="auth-err" id="login-err"></div>
-      <div class="form-group">
-        <label class="form-label">Логин</label>
-        <input type="text" class="form-input" id="l-user" placeholder="Введите ваш логин">
+      <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="l-user" placeholder="Введите логин" autocomplete="username"></div>
+      <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="l-pass" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Войти →</button>
+      <div style="margin-top:16px;padding:14px;background:var(--accent-light);border:1px solid var(--accent-soft);border-radius:12px;font-size:11px;color:var(--text2);line-height:2">
+        <strong style="color:var(--accent);font-weight:700">Демо-входы:</strong><br>
+        👑 <strong>admin</strong> / <code style="color:var(--accent);font-weight:700">admin123</code><br>
+        👩‍🏫 <strong>teacher</strong> / <code style="color:var(--purple);font-weight:700">teacher123</code><br>
+        🎓 <strong>student</strong> / <code style="color:var(--green);font-weight:700">student123</code>
       </div>
-      <div class="form-group">
-        <label class="form-label">Пароль</label>
-        <input type="password" class="form-input" id="l-pass" placeholder="••••••••">
-      </div>
-      <button class="btn btn-primary btn-full" onclick="doLogin()">Войти в систему →</button>
     </div>
     <div id="auth-register" style="display:none">
       <div class="auth-err" id="register-err"></div>
-      <div class="role-select" id="reg-role-select">
-        <div class="role-btn active" onclick="selectAuthRole('admin',this)"><div class="ri">👑</div><div class="rn">Админ</div></div>
-        <div class="role-btn" onclick="selectAuthRole('teacher',this)"><div class="ri">👩‍🏫</div><div class="rn">Учитель</div></div>
-        <div class="role-btn" onclick="selectAuthRole('student',this)"><div class="ri">🎓</div><div class="rn">Ученик</div></div>
+      <div class="form-label" style="margin-bottom:10px">Выберите роль:</div>
+      <div class="role-select">
+        <div class="role-btn" onclick="selectAuthRole('admin',this)"><div class="ri">👑</div><div class="rn">Администратор</div><div class="rd">Управление</div></div>
+        <div class="role-btn" onclick="selectAuthRole('teacher',this)"><div class="ri">👩‍🏫</div><div class="rn">Учитель</div><div class="rd">Обучение</div></div>
+        <div class="role-btn" onclick="selectAuthRole('student',this)"><div class="ri">🎓</div><div class="rn">Ученик</div><div class="rd">Учёба</div></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Имя</label><input type="text" class="form-input" id="r-fname"></div>
-        <div class="form-group"><label class="form-label">Фамилия</label><input type="text" class="form-input" id="r-lname"></div>
+        <div class="form-group"><label class="form-label">Имя</label><input class="form-input" id="r-fname" placeholder="Имя"></div>
+        <div class="form-group"><label class="form-label">Фамилия</label><input class="form-input" id="r-lname" placeholder="Фамилия"></div>
       </div>
-      <div class="form-group"><label class="form-label">Логин</label><input type="text" class="form-input" id="r-user"></div>
-      <div class="form-group"><label class="form-label">Пароль</label><input type="password" class="form-input" id="r-pass"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Логин</label><input class="form-input" id="r-user" placeholder="username"></div>
+        <div class="form-group"><label class="form-label">Пароль</label><input class="form-input" type="password" id="r-pass" placeholder="Пароль"></div>
+      </div>
       <button class="btn btn-primary btn-full" onclick="doRegister()">Создать аккаунт →</button>
     </div>
   </div>
 </div>
 
+<!-- ═══ APP ═══════════════════════════════════════════════════ -->
 <div class="app hidden" id="appContainer">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
   <aside class="sidebar" id="sidebar">
     <div class="logo">
       <div class="logo-badge">CRM v2.1</div>
-      <div class="logo-title">Лицей №89</div>
+      <div class="logo-title">Кесиптик Лицей №89</div>
+      <div class="logo-sub">Система управления</div>
     </div>
-    <nav id="main-nav"></nav>
-    <div style="padding:16px; margin-top:auto">
-      <button class="btn-logout" onclick="doLogout()">Выйти из системы</button>
+    <nav>
+      <div class="nav-section">Основное</div>
+      <div class="nav-item active" onclick="goPage('dashboard',this,'📊 Панель управления')"><div class="nav-icon">📊</div> Панель</div>
+      <div class="nav-item" onclick="goPage('schedule',this,'📅 Расписание занятий')"><div class="nav-icon">📅</div> Расписание</div>
+      <div class="nav-item" onclick="goPage('myprofile',this,'👤 Мой профиль')"><div class="nav-icon">👤</div> Мой профиль</div>
+      <div class="nav-section">Управление</div>
+      <div class="nav-item" onclick="goPage('students',this,'🎓 Ученики')"><div class="nav-icon">🎓</div> Ученики <span class="nav-badge" id="nb-students">0</span></div>
+      <div class="nav-item" onclick="goPage('teachers',this,'👩‍🏫 Учителя')"><div class="nav-icon">👩‍🏫</div> Учителя <span class="nav-badge" id="nb-teachers">0</span></div>
+      <div class="nav-item" onclick="goPage('parents',this,'👨‍👩‍👧 Родители')"><div class="nav-icon">👨‍👩‍👧</div> Родители <span class="nav-badge" id="nb-parents">0</span></div>
+      <div class="nav-item" id="nav-users" style="display:none" onclick="goPage('users',this,'👥 Пользователи')"><div class="nav-icon">👥</div> Пользователи</div>
+      <div class="nav-section">Аналитика</div>
+      <div class="nav-item" onclick="goPage('performance',this,'📈 Успеваемость')"><div class="nav-icon">📈</div> Успеваемость</div>
+      <div class="nav-item" onclick="goPage('about',this,'ℹ️ О лицее')"><div class="nav-icon">ℹ️</div> О лицее</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-info-card">
+        <div class="user-av" id="user-av">А</div>
+        <div style="flex:1;min-width:0">
+          <div class="user-name-sm" id="user-name">Пользователь</div>
+          <div class="role-pill" id="user-role-pill"></div>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-full" onclick="doLogout()" style="color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1);">⬅ Выход</button>
     </div>
   </aside>
+
   <main class="main">
     <div class="topbar">
-      <div class="hamburger" onclick="toggleSidebar()">☰</div>
+      <div class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</div>
       <div class="topbar-title" id="topbar-title">Панель управления</div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-box" id="search-box" placeholder="Поиск..." oninput="globalSearch(this.value)">
+      </div>
     </div>
-    <div class="content" id="main-content"></div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="p-dashboard">
+        <div class="sec-header">
+          <div><div class="sec-title">Добро пожаловать! 👋</div><div class="sec-sub" id="dash-greeting">Панель управления лицеем</div></div>
+          <button class="btn btn-outline btn-sm" onclick="exportData()">⬇ Экспорт</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card blue" style="border-top:3px solid var(--accent)"><div class="stat-icon">🎓</div><div class="stat-val" id="stat-st">0</div><div class="stat-lbl">Учеников</div><span class="stat-tag" style="background:var(--accent-soft);color:var(--accent)">всего</span></div>
+          <div class="stat-card green" style="border-top:3px solid var(--green)"><div class="stat-icon">👩‍🏫</div><div class="stat-val" id="stat-tch">0</div><div class="stat-lbl">Учителей</div><span class="stat-tag" style="background:var(--green-soft);color:var(--green)">активных</span></div>
+          <div class="stat-card gold" style="border-top:3px solid var(--yellow)"><div class="stat-icon">👨‍👩‍👧</div><div class="stat-val" id="stat-par">0</div><div class="stat-lbl">Родителей</div><span class="stat-tag" style="background:var(--yellow-soft);color:var(--yellow)">контактов</span></div>
+          <div class="stat-card purple" style="border-top:3px solid var(--purple)"><div class="stat-icon">📋</div><div class="stat-val">8</div><div class="stat-lbl">Программ</div><span class="stat-tag" style="background:var(--purple-soft);color:var(--purple)">специальностей</span></div>
+        </div>
+        <!-- Programs grid -->
+        <div class="card">
+          <div class="card-header"><div class="card-title">🎯 Программы специальностей</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#fff5eb,#fde8cc);border:1.5px solid #fbbf24;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Сварка-1')"><div style="font-size:28px;margin-bottom:6px">🔥</div><div style="font-weight:700;font-size:12px;color:#92400e">Сварка-1</div><div style="font-size:10px;color:#b45309" id="prog-cnt-s1">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#fff5eb,#fde8cc);border:1.5px solid #fbbf24;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Сварка-2')"><div style="font-size:28px;margin-bottom:6px">🔥</div><div style="font-weight:700;font-size:12px;color:#92400e">Сварка-2</div><div style="font-size:10px;color:#b45309" id="prog-cnt-s2">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Веб-1')"><div style="font-size:28px;margin-bottom:6px">💻</div><div style="font-weight:700;font-size:12px;color:#1d4ed8">Веб-1</div><div style="font-size:10px;color:#2563eb" id="prog-cnt-w1">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Веб-2')"><div style="font-size:28px;margin-bottom:6px">💻</div><div style="font-weight:700;font-size:12px;color:#1d4ed8">Веб-2</div><div style="font-size:10px;color:#2563eb" id="prog-cnt-w2">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#f0fdf4,#d1fae5);border:1.5px solid #6ee7b7;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Повар-1')"><div style="font-size:28px;margin-bottom:6px">👨‍🍳</div><div style="font-weight:700;font-size:12px;color:#065f46">Повар-1</div><div style="font-size:10px;color:#059669" id="prog-cnt-c1">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#f0fdf4,#d1fae5);border:1.5px solid #6ee7b7;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Повар-2')"><div style="font-size:28px;margin-bottom:6px">👨‍🍳</div><div style="font-weight:700;font-size:12px;color:#065f46">Повар-2</div><div style="font-size:10px;color:#059669" id="prog-cnt-c2">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:1.5px solid #d8b4fe;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Швея-1')"><div style="font-size:28px;margin-bottom:6px">✂️</div><div style="font-weight:700;font-size:12px;color:#5b21b6">Швея-1</div><div style="font-size:10px;color:#7c3aed" id="prog-cnt-sw1">0 учеников</div></div>
+            <div style="text-align:center;padding:16px;background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:1.5px solid #d8b4fe;border-radius:12px;cursor:pointer" onclick="filterStudentsByProg('Швея-2')"><div style="font-size:28px;margin-bottom:6px">✂️</div><div style="font-weight:700;font-size:12px;color:#5b21b6">Швея-2</div><div style="font-size:10px;color:#7c3aed" id="prog-cnt-sw2">0 учеников</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE -->
+      <div class="page" id="p-schedule">
+        <div class="sec-header">
+          <div><div class="sec-title">📅 Расписание</div><div class="sec-sub">Занятия с понедельника по субботу</div></div>
+          <div id="sched-header-btn"></div>
+        </div>
+        <div class="filter-row">
+          <button class="chip active" onclick="filterSched('all',this)">Все</button>
+          <button class="chip" onclick="filterSched('welding',this)">🔥 Сварка</button>
+          <button class="chip" onclick="filterSched('web',this)">💻 Веб</button>
+          <button class="chip" onclick="filterSched('chef',this)">👨‍🍳 Повар</button>
+          <button class="chip" onclick="filterSched('seamstress',this)">✂️ Швея</button>
+        </div>
+        <div class="schedule-wrap">
+          <div class="schedule-grid" id="schedule-grid"></div>
+        </div>
+      </div>
+
+      <!-- MY PROFILE -->
+      <div class="page" id="p-myprofile">
+        <div class="sec-header"><div><div class="sec-title">Мой профиль</div><div class="sec-sub">Личные данные и информация</div></div></div>
+        <div id="my-profile-content"></div>
+      </div>
+
+      <!-- STUDENTS -->
+      <div class="page" id="p-students">
+        <div class="sec-header">
+          <div><div class="sec-title">Ученики</div><div class="sec-sub" id="s-subtitle">—</div></div>
+          <div id="s-header-btn"></div>
+        </div>
+        <div class="filter-row">
+          <button class="chip active" onclick="filterSt('all',this)">Все</button>
+          <button class="chip" onclick="filterSt('excellent',this)">🌟 Отличники</button>
+          <button class="chip" onclick="filterSt('good',this)">📗 Хорошисты</button>
+          <button class="chip" onclick="filterSt('risk',this)">⚠ Риск</button>
+        </div>
+        <div class="table-wrap" id="s-table-wrap">
+          <table><thead><tr><th>Ученик</th><th>Класс</th><th>Программа</th><th>Ср. балл</th><th>Статус</th><th style="width:120px">Действия</th></tr></thead>
+          <tbody id="students-tbody"></tbody></table>
+        </div>
+        <div id="s-empty" class="empty" style="display:none"><div class="empty-icon">🎓</div><div class="empty-msg">Нет учеников</div><div id="s-empty-btn"></div></div>
+      </div>
+
+      <!-- PERFORMANCE -->
+      <div class="page" id="p-performance">
+        <div class="sec-header"><div><div class="sec-title">Успеваемость</div><div class="sec-sub">Анализ по программам</div></div></div>
+        <div class="stats-grid">
+          <div class="stat-card green" style="border-top:3px solid var(--green)"><div class="stat-icon">🌟</div><div class="stat-val" id="pf-excel">0</div><div class="stat-lbl">Отличников ≥4.5</div></div>
+          <div class="stat-card blue" style="border-top:3px solid var(--accent)"><div class="stat-icon">📗</div><div class="stat-val" id="pf-good">0</div><div class="stat-lbl">Хорошистов 3.5–4.4</div></div>
+          <div class="stat-card gold" style="border-top:3px solid var(--yellow)"><div class="stat-icon">⚠️</div><div class="stat-val" id="pf-risk">0</div><div class="stat-lbl">Требуют поддержки</div></div>
+          <div class="stat-card purple" style="border-top:3px solid var(--purple)"><div class="stat-icon">👥</div><div class="stat-val" id="pf-total">0</div><div class="stat-lbl">Всего учеников</div></div>
+        </div>
+        <div class="card"><div class="card-header"><div class="card-title">📊 По программам</div></div><div id="perf-programs"></div></div>
+      </div>
+
+      <!-- PARENTS -->
+      <div class="page" id="p-parents">
+        <div class="sec-header">
+          <div><div class="sec-title">Родители</div><div class="sec-sub" id="par-subtitle">—</div></div>
+          <div id="par-header-btn"></div>
+        </div>
+        <div id="parents-grid" class="c-grid"></div>
+        <div id="par-empty" class="empty" style="display:none"><div class="empty-icon">👨‍👩‍👧</div><div class="empty-msg">Нет контактов</div><div id="par-empty-btn"></div></div>
+      </div>
+
+      <!-- TEACHERS -->
+      <div class="page" id="p-teachers">
+        <div class="sec-header">
+          <div><div class="sec-title">Учителя</div><div class="sec-sub" id="tch-subtitle">—</div></div>
+          <div id="tch-header-btn"></div>
+        </div>
+        <div id="teachers-grid" class="c-grid"></div>
+        <div id="tch-empty" class="empty" style="display:none"><div class="empty-icon">👩‍🏫</div><div class="empty-msg">Нет учителей</div><div id="tch-empty-btn"></div></div>
+      </div>
+
+      <!-- USERS (admin only) -->
+      <div class="page" id="p-users">
+        <div class="sec-header">
+          <div><div class="sec-title">Пользователи</div><div class="sec-sub" id="usr-subtitle">—</div></div>
+          <button class="btn btn-primary" onclick="openUserModal()">＋ Создать</button>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Пользователь</th><th>Логин</th><th>Роль</th><th>Информация</th><th>Создан</th><th>Действия</th></tr></thead>
+          <tbody id="users-tbody"></tbody>
+        </table></div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="page" id="p-about">
+        <div class="sec-header">
+          <div><div class="sec-title">О лицее</div><div class="sec-sub">Информация об учебном заведении</div></div>
+          <div id="about-header-btn"></div>
+        </div>
+        <div id="about-content"></div>
+      </div>
+
+    </div>
   </main>
 </div>
 
-<script src="script.js"></script>
-</body>
-</html>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottomNav">
+  <div class="bottom-nav-inner">
+    <div class="bn-item active" id="bn-dashboard" onclick="goPage('dashboard',null,'📊 Панель')"><div class="bn-icon">📊</div>Панель</div>
+    <div class="bn-item" id="bn-schedule" onclick="goPage('schedule',null,'📅 Расписание')"><div class="bn-icon">📅</div>Расписание</div>
+    <div class="bn-item" id="bn-students" onclick="goPage('students',null,'🎓 Ученики')"><div class="bn-icon">🎓</div>Ученики</div>
+    <div class="bn-item" id="bn-teachers" onclick="goPage('teachers',null,'👩‍🏫 Учителя')"><div class="bn-icon">👩‍🏫</div>Учителя</div>
+    <div class="bn-item" id="bn-myprofile" onclick="goPage('myprofile',null,'👤 Профиль')"><div class="bn-icon">👤</div>Профиль</div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<!-- ═══ MODALS ═══════════════════════════════════════════════ -->
+
+<!-- SCHEDULE MODAL -->
+<div class="overlay" id="ov-schedule">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title" id="sched-modal-title">➕ Добавить занятие</div>
+      <div class="modal-close" onclick="closeModal('schedule')">✕</div>
+    </div>
+    <input type="hidden" id="sched-id">
+    <div class="form-section">📅 Время и место</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">День недели *</label>
+        <select class="form-input" id="sched-day">
+          <option value="">— Выберите —</option>
+          <option>Понедельник</option><option>Вторник</option><option>Среда</option>
+          <option>Четверг</option><option>Пятница</option><option>Суббота</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Время начала *</label>
+        <select class="form-input" id="sched-time">
+          <option value="">— Выберите —</option>
+          <option>08:00</option><option>09:00</option><option>10:00</option>
+          <option>11:00</option><option>12:00</option><option>13:00</option>
+          <option>14:00</option><option>15:00</option><option>16:00</option><option>17:00</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Программа *</label>
+        <select class="form-input" id="sched-program">
+          <option value="">— Выберите —</option>
+          <option>Сварка-1</option><option>Сварка-2</option>
+          <option>Веб-1</option><option>Веб-2</option>
+          <option>Повар-1</option><option>Повар-2</option>
+          <option>Швея-1</option><option>Швея-2</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Кабинет</label><input class="form-input" id="sched-room" placeholder="Например: 301"></div>
+    </div>
+    <div class="form-section">📚 Занятие</div>
+    <div class="form-row">
+      <div
